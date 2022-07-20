@@ -16,19 +16,19 @@ public class PlayerControls : MonoBehaviour
     {
         Instans = this;
         gameController = GameController.Instans;
-        transform.position = gameController.wayPoints[0].position;
+        transform.position = gameController.WayPoits[0].point.position;
         animatorHelper.ForceActiveAnimationState("Idle");
     }
     
 
     public void MoveToNextWayPoint()
     {
-        for (int i = 0; i < gameController.wayPoints.Length ; i++)
+        for (int i = 0; i < gameController.WayPoits.Length ; i++)
         {
-            if (currentWayPoint == gameController.wayPoints.Length - 1)
+            if (currentWayPoint == gameController.WayPoits.Length - 1)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                transform.position = gameController.wayPoints[0].position;
+                transform.position = gameController.WayPoits[0].point.position;
                 currentWayPoint = 0;
                 animatorHelper.ForceActiveAnimationState("Run");
                 StartCoroutine(Move());
@@ -36,7 +36,7 @@ public class PlayerControls : MonoBehaviour
             }
             if (currentWayPoint == i)
             {
-                navMeshAgent.SetDestination(gameController.wayPoints[i + 1].position);
+                navMeshAgent.SetDestination(gameController.WayPoits[i + 1].point.position);
                 
                 currentWayPoint++;
                 animatorHelper.ForceActiveAnimationState("Run");

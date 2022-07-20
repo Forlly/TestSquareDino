@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private CameraMovement camera;
-    public Transform[] wayPoints;
+    public WayPoit[] WayPoits;
     [SerializeField] private Camera _camera;
     [SerializeField] public WeaponController weaponController;
     private bool gameStarting = false;

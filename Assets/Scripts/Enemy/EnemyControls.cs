@@ -29,6 +29,14 @@ public class EnemyControls : MonoBehaviour
         currentHP -= damage;
         if (currentHP <= 0)
         {
+            for (int i = 0; i <  GameController.Instans.WayPoits.Length; i++)
+            {
+                if (GameController.Instans.WayPoits[i].DeleteEnemys(this))
+                {
+                    break;
+                }
+            }
+           
             EnemysController.Instance.DeleteEnemys(this);
             Destroy(gameObject);
         }
