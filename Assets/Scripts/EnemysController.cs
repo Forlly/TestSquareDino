@@ -10,7 +10,6 @@ public class EnemysController : MonoBehaviour
     {
         for (int i = 0; i < enemys.Length; i++)
         {
-            Debug.Log(enemys[i]);
             if (enemys[i])
             {
                 distance = enemys[i].CheckDistanceToPlayer(PlayerControls.Instans.transform);
