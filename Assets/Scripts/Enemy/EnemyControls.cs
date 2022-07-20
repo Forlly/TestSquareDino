@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour
+public class EnemyControls : MonoBehaviour
 {
     [SerializeField] private float speed = 0.2f;
+    [SerializeField] private EnemyHP enemyHp;
     [SerializeField] private int startingHP = 3;
     [SerializeField] private int currentHP = 3;
 
@@ -25,6 +28,11 @@ public class EnemyMovement : MonoBehaviour
     {
         currentHP -= damage;
         if (currentHP <= 0)
+        {
+            EnemysController.Instance.DeleteEnemys(this);
             Destroy(gameObject);
+        }
+        
+        enemyHp.UpdateSpriteHP(currentHP,startingHP);
     }
 }

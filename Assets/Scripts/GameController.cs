@@ -3,18 +3,17 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     [SerializeField] private CameraMovement camera;
+    public Transform[] wayPoints;
     [SerializeField] private Camera _camera;
     [SerializeField] public WeaponController weaponController;
     private bool gameStarting = false;
-    private Vector3 endPoint = Vector3.zero;
 
     public static GameController Instans;
 
-    private void Start()
+    private void Awake()
     {
         Instans = this;
         camera.Active = true;
-        _camera = camera.GetComponent<Camera>();
     }
 
     private void Update()
@@ -40,7 +39,16 @@ public class GameController : MonoBehaviour
                             weaponController.Fire(raycastHit.point,
                                 () =>
                                 {
-                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyMovement>());
+                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
+                                });
+                        }
+                        else if (raycastHit.collider.CompareTag("Environment"))
+                        {
+                            weaponController.Fire(raycastHit.point,
+                                () =>
+                                {
+                                    Rigidbody rb = raycastHit.collider.gameObject.GetComponent<Rigidbody>();
+                                    rb.AddForce(1,1,200);
                                 });
                         }
                         else
@@ -74,7 +82,7 @@ public class GameController : MonoBehaviour
                             weaponController.Fire(raycastHit.point,
                                 () =>
                                 {
-                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyMovement>());
+                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
                                 });
                         }
                         else

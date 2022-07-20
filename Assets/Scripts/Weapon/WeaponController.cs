@@ -39,7 +39,7 @@ public class WeaponController : MonoBehaviour
             _bullet.transform.position = Vector3.Lerp(startPoint, endPoint, progressFly);
             
             
-            if (currentTime >= lifeTime || progressFly >= 1)
+            if (currentTime > lifeTime || progressFly > 1)
             {
                 _bullet.SetActive(false);
                 calback?.Invoke();
@@ -49,7 +49,7 @@ public class WeaponController : MonoBehaviour
     }
 
 
-    public void MakeDamage( EnemyMovement enemy)
+    public void MakeDamage( EnemyControls enemy)
     {
         enemy.ReceiveDamage(weapon.Damage);
     }
