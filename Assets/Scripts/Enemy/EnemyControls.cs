@@ -44,6 +44,7 @@ public class EnemyControls : MonoBehaviour
         }
         StartCoroutine(DoRagdoll(true));
         skinnedMesh.material = dieMaterial;
+        enemyHp.UpdateSpriteHP(0,startingHP);
     }
 
     public IEnumerator DoRagdoll(bool isRagdoll)

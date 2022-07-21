@@ -18,5 +18,7 @@ MonoBehaviour:
   Description: 
   Damage: 2
   WeaponType: 0
-  speed: 10
+  speed: 20
   lifeTime: 20
+  reloadTime: 0.5
+  readyToShot: 1

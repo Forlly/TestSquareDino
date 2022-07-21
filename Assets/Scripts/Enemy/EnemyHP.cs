@@ -1,20 +1,25 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyHP : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer[] currentHP;
+    [SerializeField] private Image background;
+    [SerializeField] private Image hp;
 
     public void UpdateSpriteHP(int _countHP, int _startHP)
     {
-        float percentCurrentHp = 100f * _countHP / _startHP;
-        float percentSpriteHp = percentCurrentHp * currentHP.Length / 100f;
-        int indexSprite = (int)Math.Floor(percentSpriteHp);
-
-        for (int i = 0; i < currentHP.Length; i++)
+        background.enabled = true;
+        hp.enabled = true;
+        
+        if (_countHP <= 0)
         {
-            currentHP[i].enabled = i < indexSprite;
-            Debug.Log(indexSprite);
+            background.enabled = false;
+            hp.enabled = false;
         }
+        float percentCurrentHp = 100f * _countHP / _startHP;
+        
+        hp.fillAmount = percentCurrentHp/100f;
+
     }
 }

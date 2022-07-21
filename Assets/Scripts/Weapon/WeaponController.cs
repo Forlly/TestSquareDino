@@ -8,16 +8,28 @@ public class WeaponController : MonoBehaviour
     public GameObject bullet;
     public Transform spawnBulletPos;
     [SerializeField] private PlayerControls player;
-    
+
+    private void Start()
+    {
+        weapon.readyToShot = true;
+    }
 
     public void Fire(Vector3 endPoint, Action calback = null)
     {
         StartCoroutine(Shot(endPoint, calback));
+        
+        StartCoroutine(Reload(weapon));
     }
-    
+
+    private IEnumerator Reload(Weapon _weapon)
+    {
+        yield return new WaitForSeconds(_weapon.reloadTime);
+        _weapon.readyToShot = true;
+    }
     private IEnumerator Shot(Vector3 endPoint, Action calback = null)
     {
         Vector3 startPoint = spawnBulletPos.position;
+        weapon.readyToShot = false;
 
         GameObject _bullet = ObjectPool.Instance.GetPooledObject();
         if (_bullet != null)
@@ -55,7 +67,6 @@ public class WeaponController : MonoBehaviour
     }
     public void HeadShot( EnemyControls enemy)
     {
-        Debug.Log(enemy);
         enemy.DeleteEnemyFromWayPoint();
     }
 }

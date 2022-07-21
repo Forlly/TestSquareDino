@@ -5,8 +5,12 @@ public class GameController : MonoBehaviour
     [SerializeField] private CameraMovement camera;
     public WayPoit[] WayPoits;
     [SerializeField] private Camera _camera;
-    [SerializeField] public WeaponController weaponController;
-    private bool gameStarting = false;
+    
+    [SerializeField] private Animator textAnimator;
+    [SerializeField] private GameObject textStartGame;
+    
+    public WeaponController weaponController;
+    public bool gameStarting = false;
 
     public static GameController Instans;
 
@@ -14,121 +18,63 @@ public class GameController : MonoBehaviour
     {
         Instans = this;
         camera.Active = true;
+        textAnimator.CrossFade("StartGame", 0f);
     }
 
     private void Update()
     {
-        if (Application.isEditor)
+        if (Input.GetMouseButtonDown(0))
         {
-            if (Input.GetMouseButtonDown(0))
+            if (!gameStarting)
             {
-                if (!gameStarting)
-                {
-                    PlayerControls.Instans.MoveToNextWayPoint();
-                    gameStarting = true;
-                }
-                else
-                {
-                    Vector3 positionTouch = Input.mousePosition;
-
-                    Ray ray = _camera.ScreenPointToRay(positionTouch);
-                    if (Physics.Raycast(ray, out RaycastHit raycastHit))
-                    {
-                        if (raycastHit.collider.CompareTag("Enemy"))
-                        {
-                            if (raycastHit.collider.name == "Head")
-                            {
-                                weaponController.Fire(raycastHit.point,
-                                    () =>
-                                    {
-                                        weaponController.HeadShot(raycastHit.collider
-                                            .GetComponentInParent<EnemyControls>());
-                                    });
-                            }
-                            else
-                            {
-                                weaponController.Fire(raycastHit.point,
-                                    () =>
-                                    {
-                                        weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
-                                    });
-                            }
-                            
-                        }
-                        else if (raycastHit.collider.CompareTag("Environment"))
-                        {
-                            weaponController.Fire(raycastHit.point,
-                                () =>
-                                {
-                                    Rigidbody rb = raycastHit.collider.gameObject.GetComponent<Rigidbody>();
-                                    rb.AddForce(1,1,200);
-                                });
-                        }
-                        else
-                        {
-                            weaponController.Fire(raycastHit.point);
-                        }
-                    }
-                }
+                PlayerControls.Instans.MoveToNextWayPoint();
+                gameStarting = true;
+                textStartGame.SetActive(false);
+                return;
             }
-        }
-        else if (Application.isMobilePlatform )
-        {
-            if (Input.touchCount > 0 )
+
+            if (!weaponController.weapon.readyToShot)
+                return;
+            
+
+            Vector3 positionTouch = Input.mousePosition;
+
+            Ray ray = _camera.ScreenPointToRay(positionTouch);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit))
             {
-                if (!gameStarting)
+                if (raycastHit.collider.CompareTag("Enemy"))
                 {
-                    PlayerControls.Instans.MoveToNextWayPoint();
-                    gameStarting = true;
+                    if (raycastHit.collider.name == "Head")
+                    {
+                        weaponController.Fire(raycastHit.point,
+                            () =>
+                            {
+                                weaponController.HeadShot(raycastHit.collider
+                                    .GetComponentInParent<EnemyControls>());
+                            });
+                    }
+                    else
+                    {
+                        weaponController.Fire(raycastHit.point,
+                            () => { weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>()); });
+                    }
+
+                }
+                else if (raycastHit.collider.CompareTag("Environment"))
+                {
+                    weaponController.Fire(raycastHit.point,
+                        () =>
+                        {
+                            Rigidbody rb = raycastHit.collider.gameObject.GetComponent<Rigidbody>();
+                            rb.AddForce(1, 1, 200);
+                        });
                 }
                 else
                 {
-                    Touch touch = Input.GetTouch(0);
-
-                    Vector3 positionTouch = touch.position;
-
-                    Ray ray = _camera.ScreenPointToRay(positionTouch);
-                    if (Physics.Raycast(ray, out RaycastHit raycastHit))
-                    {
-                        if (raycastHit.collider.CompareTag("Enemy"))
-                        {
-                            if (raycastHit.collider.name == "Head")
-                            {
-                                weaponController.Fire(raycastHit.point,
-                                    () =>
-                                    {
-                                        weaponController.HeadShot(raycastHit.collider
-                                            .GetComponentInParent<EnemyControls>());
-                                    });
-                            }
-                            else
-                            {
-                                weaponController.Fire(raycastHit.point,
-                                    () =>
-                                    {
-                                        weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
-                                    });
-                            }
-                        }
-                        else if (raycastHit.collider.CompareTag("Environment"))
-                        {
-                            weaponController.Fire(raycastHit.point,
-                                () =>
-                                {
-                                    Rigidbody rb = raycastHit.collider.gameObject.GetComponent<Rigidbody>();
-                                    rb.AddForce(1,1,200);
-                                });
-                        }
-                        else
-                        {
-                            weaponController.Fire(raycastHit.point);
-                        }
-                    }
+                    weaponController.Fire(raycastHit.point);
                 }
-                    
-                
             }
         }
     }
-    
+
 }

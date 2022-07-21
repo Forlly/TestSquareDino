@@ -12,6 +12,8 @@ public class Weapon : ScriptableObject
     public WeaponType WeaponType;
     public float speed;
     public float lifeTime;
+    public float reloadTime;
+    public bool readyToShot;
 }
 
 public enum WeaponType
