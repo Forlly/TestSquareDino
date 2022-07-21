@@ -53,4 +53,9 @@ public class WeaponController : MonoBehaviour
     {
         enemy.ReceiveDamage(weapon.Damage);
     }
+    public void HeadShot( EnemyControls enemy)
+    {
+        Debug.Log(enemy);
+        enemy.DeleteEnemyFromWayPoint();
+    }
 }

@@ -36,11 +36,24 @@ public class GameController : MonoBehaviour
                     {
                         if (raycastHit.collider.CompareTag("Enemy"))
                         {
-                            weaponController.Fire(raycastHit.point,
-                                () =>
-                                {
-                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
-                                });
+                            if (raycastHit.collider.name == "Head")
+                            {
+                                weaponController.Fire(raycastHit.point,
+                                    () =>
+                                    {
+                                        weaponController.HeadShot(raycastHit.collider
+                                            .GetComponentInParent<EnemyControls>());
+                                    });
+                            }
+                            else
+                            {
+                                weaponController.Fire(raycastHit.point,
+                                    () =>
+                                    {
+                                        weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
+                                    });
+                            }
+                            
                         }
                         else if (raycastHit.collider.CompareTag("Environment"))
                         {
@@ -79,10 +92,31 @@ public class GameController : MonoBehaviour
                     {
                         if (raycastHit.collider.CompareTag("Enemy"))
                         {
+                            if (raycastHit.collider.name == "Head")
+                            {
+                                weaponController.Fire(raycastHit.point,
+                                    () =>
+                                    {
+                                        weaponController.HeadShot(raycastHit.collider
+                                            .GetComponentInParent<EnemyControls>());
+                                    });
+                            }
+                            else
+                            {
+                                weaponController.Fire(raycastHit.point,
+                                    () =>
+                                    {
+                                        weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
+                                    });
+                            }
+                        }
+                        else if (raycastHit.collider.CompareTag("Environment"))
+                        {
                             weaponController.Fire(raycastHit.point,
                                 () =>
                                 {
-                                    weaponController.MakeDamage(raycastHit.collider.GetComponent<EnemyControls>());
+                                    Rigidbody rb = raycastHit.collider.gameObject.GetComponent<Rigidbody>();
+                                    rb.AddForce(1,1,200);
                                 });
                         }
                         else
