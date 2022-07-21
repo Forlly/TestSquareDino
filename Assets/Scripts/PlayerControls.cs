@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -28,18 +27,16 @@ public class PlayerControls : MonoBehaviour
             if (currentWayPoint == gameController.WayPoits.Length - 1)
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                transform.position = gameController.WayPoits[0].point.position;
                 currentWayPoint = 0;
-                animatorHelper.ForceActiveAnimationState("Run");
                 StartCoroutine(Move());
                 break;
             }
             if (currentWayPoint == i)
             {
-                navMeshAgent.SetDestination(gameController.WayPoits[i + 1].point.position);
-                
-                currentWayPoint++;
                 animatorHelper.ForceActiveAnimationState("Run");
+                navMeshAgent.SetDestination(gameController.WayPoits[i + 1].point.position);
+                currentWayPoint++;
+                
                 StartCoroutine(Move());
                 break;
             }

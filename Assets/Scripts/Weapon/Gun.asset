@@ -20,5 +20,5 @@ MonoBehaviour:
   WeaponType: 0
   speed: 20
   lifeTime: 20
-  reloadTime: 0.5
+  reloadTime: 0.3
   readyToShot: 1
